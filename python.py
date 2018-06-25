@@ -59,7 +59,7 @@
 	//s.set_age = MethodType(set_age, s) # 给实例绑定一个方法,只是s这个实例可以使用set_age这个方法
 	//Student.set_score = set_score//class绑定方法后，所有实例均可调用
 	
-	限制实例的属性： 特殊的__slots__变量  //__slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
+	限制实例的属性： 特殊的__slots__变量  //只允许对Student实例添加name和age属性  __slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
 	__slots__定义的属性仅对当前类实例起作用，对继承的子类是不起作用的
 	
 	2。 使用@property
@@ -71,20 +71,30 @@
 	继承是面向对象编程的一个重要的方式，因为通过继承，子类就可以扩展父类的功能
 	多重继承，一个子类就可以同时获得多个父类的所有功能
 	MixIn设计: 在设计类的继承关系时，通常，主线都是单一继承下来的，例如，Ostrich继承自Bird。但是，如果需要“混入”额外的功能，通过多重继承就可以实现，比如，让Ostrich除了继承自Bird外，再同时继承Runnable。这种设计通常称之为MixIn。
+	//class Dog(Mammal, RunnableMixIn, CarnivorousMixIn):
 	
 	小结
 	由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。
 	只允许单一继承的语言（如Java）不能使用MixIn的设计。
 	
+	4。定制类
+	看到类似__slots__这种形如__xxx__的变量或者函数名就要注意，这些在Python中是有特殊用途的
+	Python的class中还有许多这样有特殊用途的函数，可以帮助我们定制类
+	__str__， __repr__ ： __str__()返回用户看到的字符串，而__repr__()返回程序开发者看到的字符串
+	__iter__： 如果一个类想被用于for ... in循环，类似list或tuple那样，就必须实现一个__iter__()方法，该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的__next__()方法拿到循环的下一个值，直到遇到StopIteration错误时退出循环
+	__getitem__： 要表现得像list那样按照下标取出元素，需要实现__getitem__()方法
+	__getattr__： 除了__init__可以加上一个score属性外，Python还有另一个机制，那就是写一个__getattr__()方法，动态返回一个属性
+	__call__： 任何类，只需要定义一个__call__()方法，就可以直接对实例进行调用。 通过callable()函数，我们就可以判断一个对象是否是“可调用”对象。
 	
+	5。 枚举类
+	Enum类： 枚举类型定义一个class类型，然后，每个常量都是class的一个唯一实例
+	#from enum import Enum
+	#Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
 	
-	
-	
-	
-	
-	
-	
-	
+	6。 元类
+	type()： type()函数可以查看一个类型或变量的类型，type()函数既可以返回一个对象的类型，又可以创建出新的类型
+	通过type()函数创建的类和直接写class是完全一样的，因为Python解释器遇到class定义时，仅仅是扫描一下class定义的语法，然后调用type()函数创建出class
+	metaclass： 直译为元类， 当我们定义了类以后，就可以根据这个类创建出实例，所以：先定义类，然后创建实例
 	
 	
 	
